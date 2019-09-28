@@ -1,0 +1,120 @@
+1.生成器
+    创建生成器的两种方式:
+        1.(x*2 for x in range(1,10)
+        2. def f():
+                yield
+                f() 就是一个生成器
+    next() 取生成器的值
+    什么是可迭代对象
+        内部有_iter_方法的 都是可迭代对象
+        iter()   返回一个迭代器对象
+            list tuple dict string 都是可迭代对象
+    .send方法
+   生成器都是迭代器,迭代器不一定是生成器
+
+2 迭代器两个条件
+    有iter方法
+    有next方法
+    for循环三件事
+        调用可迭代对象iter方法 返回一个迭代器对象
+        不断调用迭代器对象next()方法
+        处理stopIteration
+    isinstance 判断数据类型  Iterator迭代器  Iterable 可迭代对象
+
+3 time 模块
+    time.time 时间戳
+    time.clock 计算CPC工作时间
+    time.gmtime  结构化时间,就是格林尼治时间
+    time.localtime 本地时间
+    time.strftime  字符串时间  格式化的时间
+    time.strptime  转化成结构化时间
+    time.ctime()  固定格式结构化时间
+    time.mktime   格式化时间转化结构化时间
+4. datetime
+    datetime.datetime.now() 输出当前时间
+
+5.random 随机数模块
+    random.randomint() 整数随机数
+    random.choice()
+    random.sample
+    random.randrange()
+    chr() 将数字转化成字母
+
+6 os 模块(操作系统)
+    os.getcwd() 取到当前的工作目录
+    os.chdir()  改变工作目录
+    os.curdir 当前目录
+    os.pardir
+    os.makedirs 按照目录递归生成多个文件夹
+    os.removedirs 只能删除目录下的空文件
+    os.rmdir 删除一个空文件夹
+    os.mkdir 生成一个文件
+    os.listdir()  将目录下的所有文件展示出来
+    os.remove 只能删除文件不能删除文件夹
+    os.rename 重命名文件/目录
+    os.stat('path/filename') 获取当前文件的所有内容
+    os.sep 路径的分隔符
+    os.path.dirname('文件夹名称')
+    os.path.join([],[]) 文件路径拼接
+7 sys 模块
+    sys.argv
+    sys.path
+8 hashlib 模块
+    加密算法
+9 logging 模块  日志
+    logging.debug
+    logging.info
+    logging.warning
+    logging.error
+    logging.critical
+    在logging.basicConfig(level = logging.DEBUG
+                          format=
+                          datefmt =
+                          filename =
+      中设置相对应的logging级别
+
+10 ConfigParser模块
+    配置文件模块
+
+11 re 正则表达式作用
+        匹配 字符串的  所有操作对象都是字符串
+        字符串内部提供的方法是完全匹配
+        引入正则 是为了进行模糊匹配
+    方法:
+        re.findall(规则,),所有的结果都返回到一个列表里面
+        re.search()匹配出第一个满足条件的结果,返回的是一个(object)对象,后面加.group()取返回的结果
+        re.match() 只在字符串开始匹配,例子:ret = re.match('asd', 'asdfhdsasd')
+                                        print(ret.group())
+        re.split('')分割
+        re.sub('被替换的内容','替换的内容', '需要替换的对象') 替换
+        re.compile('匹配的规则'),将匹配的规则编辑成一个对象可供调用
+     元字符:
+        '.' 通配符  代指所有的字符,除了换行符,一个点只能代指任意一个字符
+        '^' 只在开始匹配 print(re.findall('^hello','hello.world'))
+        '$' 只在结尾匹配
+        '*' 重复匹配 (0到正无穷)
+        '+' 重复匹配 (1到正无穷)
+        '?' [0,1] a?b 匹配到0或者1个a加一个b
+        '{}' 贪婪匹配
+        '[]' 字符集,中间是或者的关系, 取消元字符的功能 (\ ^ -)这些符号例外
+               [^]是取反的意思
+               例如re.findall('a[cd]x','acdx'),结果是'acx'
+        '()' 分组
+                例子:
+                ret = re.search('(?P<id>\\d{3})/(?P<name>\\w{3})', 'weeew34ttt123/ooo')
+                print(ret.group())  # 123/ooo
+                print(ret.group('id'))  # 123
+                print(ret.group('name'))  # ooo
+        '|' 或的意思
+        '\' 反斜杠后边跟元字符去除特殊功能,后面跟部分普通字符实现特殊功能
+            \d 匹配任何十进制数: 相当于类[0-9]
+            \D 匹配任何非数字字符: 相当于类[^0-9]
+            \s 匹配任何空白字符:相当于类[\t\n\r\f\v]
+            \S 匹配任何非空白字符,相当于类[^\t\n\r\f\v]
+            \w  匹配任何字母数字字符,相当于类[a-zA-Z1-9]
+            \W  匹配任何非字母数字字符,相当于类[^a-zA-Zz-9]
+            \b  匹配一个特殊字符边界 也就是指单词和空格间的位置
+    结论:
+    *等于{0,正无穷}
+    +等价于{1,正无穷}
+    ?等价于{0,1}

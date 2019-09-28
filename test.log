@@ -1,0 +1,5 @@
+2019-09-24 15:09:47,666 - root -DEBUG - logger debug message 
+2019-09-24 15:09:47,667 - root -INFO - info debug message 
+2019-09-24 15:09:47,667 - root -WARNING - warning debug message 
+2019-09-24 15:09:47,667 - root -ERROR - error debug message 
+2019-09-24 15:09:47,667 - root -CRITICAL - critical debug message 
