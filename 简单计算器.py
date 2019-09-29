@@ -30,6 +30,8 @@ def format_result(string):
     string = string.replace('--', '+')
     string = string.replace('+-', '-')
     string = string.replace('*+', '*')
+    # string = string.replace('*-', '-*')
+    # string = string.replace('*-', '-/')
     string = string.replace('/+', '/')
     string = string.replace(' ', '')
     return string
@@ -38,9 +40,9 @@ def format_result(string):
 # 定义乘除法
 def mul_div(string):
     # 从字符串中获取一个乘法或者除法的表达式
-    regular = '\\d*\\.?\\d*[*/]\\d*\\.?\\d*'
+    regular = '\\d+\\.?\\d*[*/][\\-]?\\d+\\.?\\d*'
     # 使用一个while循环检测
-    while re.findall(regular, string):
+    while re.search(regular, string):
         expression = re.search(regular, string).group()
         # print(type(expression))
         # 检测如果是乘法 用乘法计算
@@ -61,8 +63,8 @@ def mul_div(string):
 
 # 定义加减法
 def add_sub(string):
-    add_regular = '[\\-]?\\d*\\.?\\d \\+ [-]?\\d*\\.?\\d '
-    sub_regular = r'\-?\d*\.?\d*\-\-?\d*\.?\d*'
+    add_regular = r'[\-]?\d+\.?\d*\+[\-]?\d+\.?\d*'
+    sub_regular = r'[\-]?\d+\.?\d*\-[\-]?\d+\.?\d*'
     # 一个一个找出加法的格式计算并替换
     while re.findall(add_regular, string):
         add_list = re.findall(add_regular, string)
@@ -73,24 +75,27 @@ def add_sub(string):
         string = format_result(string)
 
     while re.findall(sub_regular, string):
-        sub_list = re.findall(sub_regular, string)
-        for sub_str in sub_list:
-            numbers = sub_str.split('-')
-            if len(numbers) == 3:
-                result = 0
-                for v in numbers:
-                    if v:
-                        result -= float(v)
+        # flag = True
+        sub_value = re.search(sub_regular, string).group()  # -1-120.0
+        if sub_value.count('-') == 2:
+            x, y, z = sub_value.split('-')
+            sub_resu = '-' + str(float(y) + float(z))
+            string = string.replace(sub_value, sub_resu)
+        else:
+            x, y = sub_value.split('-') #'' 106
+            if x == '':
+                sub_resu = '-'+ y
+                string = string.replace(sub_value, sub_resu)
+                # flag = False
             else:
-                x, y = numbers
-                result = float(x)-float(y)
-            string = string.replace(sub_str, '+' + str(result))
+                sub_resu = str(float(x) - float(y))
+                string = string.replace(sub_value, sub_resu)
         string = format_result(string)
 
     return string
 
 
-source = '1-2*(60-30+(-9-2-5-2*3-6/3-40*4/2-10/5+6*3))'
+source = '1-2*(60-30+(-9-2-5-2*3-6/3-40*4/2-10/5-6*3+(5.56*3+4*6)))'
 if check_expression(source):
     print('source:', source)
     print('eval result:', eval(source))
